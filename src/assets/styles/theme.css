@@ -1,0 +1,75 @@
+:root {
+  --bg: #3a3d57;
+  --text: #ffffff;
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* A wrapper that paints fixed corner decorations without repeating */
+.tw-layout {
+  position: relative;
+  min-height: 100vh;
+}
+
+.tw-layout::before,
+.tw-layout::after {
+  content: "";
+  position: fixed;           /* stay pinned even when scrolling */
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.9;
+  filter: none;
+}
+
+/* bottom-left dots */
+.tw-layout::before {
+  left: 0;
+  bottom: 0;
+  width: min(33vw, 520px);
+  height: min(33vw, 520px);
+  background: url("../images/bg-deco-left.svg") left bottom / contain no-repeat;
+}
+
+/* top-right dots */
+.tw-layout::after {
+  right: 0;
+  top: 0;
+  width: min(40vw, 640px);
+  height: min(40vw, 640px);
+  background: url("../images/bg-deco-right.svg") right top / contain no-repeat;
+}
+
+/* keep Ant Design surfaces readable on dark bg */
+.ant-layout { background: transparent !important; }
+.ant-card { background: rgba(0,0,0,0.15); border: none; }
+.ant-typography, .ant-card, .ant-alert { color: var(--text); }
+
+/* Big uppercase H1 like the screenshot */
+h1 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+/* Sidebar (light) vs content (dark) look */
+.tw-sider {
+  background: #ffffff !important;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.tw-sider .tw-logo {
+  height: 64px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+}
+.tw-sider .ant-menu {
+  background: transparent;
+}

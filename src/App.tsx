@@ -6,6 +6,8 @@ import Home from '@/pages/Home';
 import ArticlePage from '@/pages/Article';
 import TablePage from '@/pages/Table';
 import './assets/styles/global.css';
+import './assets/styles/fonts.css';
+import './assets/styles/theme.css';
 
 const qc = new QueryClient();
 
