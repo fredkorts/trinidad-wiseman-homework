@@ -9,9 +9,11 @@ export default function TablePage() {
   if (isError) return <Alert type="error" message="Failed to load table data" description={String((error as Error)?.message ?? '')} />;
 
   return (
-    <Card>
-      <h1>Table</h1>
-      <CustomTable rows={data ?? []} />
-    </Card>
+    <>
+      <h1 style={{ textAlign: 'center', letterSpacing: 1, marginTop: 0, marginBottom: 16 }}>NIMEKIRI</h1>
+      <Card>
+        <CustomTable rows={data ?? []} />
+      </Card>
+    </>
   );
 }

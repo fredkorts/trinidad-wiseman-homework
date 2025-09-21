@@ -8,6 +8,24 @@ export interface TwnImage {
   title: string;
 }
 
+export interface TwnListItem {
+  id: string;
+  boolean: boolean;
+  phone: string;
+  date: number;          // Unix seconds
+  tags: string[];
+  sex: Sex;
+  firstname: string;
+  surname: string;
+  email: string;
+  title: string;
+  intro: string;         // HTML
+  body: string;          // HTML
+  personal_code: number;
+  image: TwnImage;
+  images: TwnImage[];
+}
+
 export interface Article {
   id: string;
   boolean: boolean;
@@ -27,8 +45,9 @@ export interface Article {
 }
 
 export interface Row {
-  id: number;
-  name: string;
-  value: number;
-  category: string;
+  firstName: string;
+  lastName: string;
+  sex: 'Mees' | 'Naine';
+  birthDate: number; // unix seconds; we'll format in the UI
+  phone: string;
 }
