@@ -20,7 +20,7 @@ export default function CustomTable({ rows }: Props) {
   const cycle = (key: keyof Row) => {
     setSort((prev) => {
       const dir = prev?.key === key ? nextDir(prev.dir) : 'asc';
-      const next = dir === 'none' ? null : { key, dir as SortDir };
+      const next = dir === 'none' ? null : { key, dir: dir as SortDir };
       return next;
     });
     setPage(1);

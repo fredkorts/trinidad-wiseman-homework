@@ -3,8 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": { "e2e": "playwright test",
-    "dev": "vite", "mock": "node mock.server.js",
+  "scripts": {
+    "e2e": "playwright test",
+    "dev": "vite",
+    "mock": "PORT=8888 node mock.server.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

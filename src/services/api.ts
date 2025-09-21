@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import type { Article, Row } from '@/types';
 
 const client = axios.create({
