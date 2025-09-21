@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
-import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import type { Article, Row } from '@/types';
 
 const client = axios.create({
@@ -8,13 +7,14 @@ const client = axios.create({
   timeout: 10_000
 });
 
-export function cancelTokenSource() {
-  const controller = new AbortController();
-  return controller;
+export function unixToDate(unixSec: number) {
+  // API returns seconds; JS Date expects ms
+  return new Date(unixSec * 1000);
 }
 
 export async function getArticle(signal?: AbortSignal): Promise<Article> {
-  const res = await client.get('/api/article', { signal });
+  const url = 'https://proovitoo.twn.ee/api/list/972d2b8a';
+  const res = await axios.get<Article>(url, { signal });
   return res.data;
 }
 
@@ -23,10 +23,9 @@ export async function getTable(signal?: AbortSignal): Promise<Row[]> {
   return res.data;
 }
 
-// React Query hooks
 export function useArticle(): UseQueryResult<Article> {
   return useQuery({
-    queryKey: ['article'],
+    queryKey: ['article', '972d2b8a'],
     queryFn: ({ signal }) => getArticle(signal),
     retry: 2
   });
