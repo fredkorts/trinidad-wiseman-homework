@@ -1,17 +1,50 @@
 import { useMemo, useState } from 'react';
 import type { Row } from '@/types';
-import { nextDir, sortRows, type SortDir, type SortState } from '@/utils/sort';
+import { nextDir, type SortDir, type SortState } from '@/utils/sort';
 import { usePagination } from '@/hooks/usePagination';
 import { Select, Button } from 'antd';
 
 interface Props { rows: Row[]; }
 
-const COLUMNS: { key: keyof Row; label: string }[] = [
-  { key: 'firstName', label: 'Eesnimi' },
-  { key: 'lastName',  label: 'Perekonnanimi' },
-  { key: 'sex',       label: 'Sugu' },
-  { key: 'birthDate', label: 'Sünnikuupäev' },
-  { key: 'phone',     label: 'Telefon' },
+/** Values we can compare */
+type Comparable = string | number | boolean | Date | null | undefined;
+
+/** Column config: how to read and (optionally) compare */
+interface Column<T> {
+  key: keyof T;
+  label: string;
+  accessor: (row: T) => Comparable;
+  compare?: (a: T, b: T) => number;
+}
+
+/** Locale-aware (Estonian) + numeric string collation */
+const collator = new Intl.Collator('et', { sensitivity: 'base', numeric: true });
+
+/** Default comparison with nulls last + Date -> number */
+function defaultCompare(a: Comparable, b: Comparable): number {
+  const aEmpty = a == null, bEmpty = b == null;
+  if (aEmpty && !bEmpty) return 1;
+  if (!aEmpty && bEmpty) return -1;
+  if (aEmpty && bEmpty) return 0;
+
+  const ax = a instanceof Date ? a.getTime() : a;
+  const bx = b instanceof Date ? b.getTime() : b;
+
+  if (typeof ax === 'number' && typeof bx === 'number') {
+    return ax === bx ? 0 : ax > bx ? 1 : -1;
+  }
+  return collator.compare(String(a), String(b));
+}
+
+/** Column setup: clear, extensible, no dynamic indexing */
+const COLUMNS: Column<Row>[] = [
+  { key: 'firstName', label: 'Eesnimi', accessor: r => r.firstName },
+  { key: 'lastName',  label: 'Perekonnanimi', accessor: r => r.lastName },
+  { key: 'sex',       label: 'Sugu', accessor: r => r.sex },
+  // unix seconds → sort numerically
+  { key: 'birthDate', label: 'Sünnikuupäev', accessor: r => r.birthDate },
+  // phone: sort by numeric digits (natural order)
+  { key: 'phone',     label: 'Telefon', accessor: r => Number(r.phone.replace(/\D/g, '')) },
 ];
 
 function SortHeader({ label, active, dir }: { label: string; active: boolean; dir: SortDir }) {
@@ -35,10 +68,19 @@ function formatCell<K extends keyof Row>(row: Row, key: K) {
 export default function CustomTable({ rows }: Props) {
   const [sort, setSort] = useState<SortState<keyof Row> | null>(null);
 
-const sorted = useMemo<Row[]>(() => sortRows<Row>(rows, sort), [rows, sort]);
-const { data, page, pages, setPage, perPage, setPerPage, range, total } =
-  usePagination<Row>(sorted, 10);
+  const activeCol = COLUMNS.find(c => c.key === sort?.key);
 
+  const sorted = useMemo<Row[]>(() => {
+    if (!sort || sort.dir === 'none' || !activeCol) return rows;
+    const { accessor, compare } = activeCol;
+    return [...rows].sort((a, b) => {
+      const base = compare ? compare(a, b) : defaultCompare(accessor(a), accessor(b));
+      return sort.dir === 'asc' ? base : -base;
+    });
+  }, [rows, sort, activeCol]);
+
+  const { data, page, pages, setPage, perPage, setPerPage, range, total } =
+    usePagination<Row>(sorted, 10);
 
   const cycle = (key: keyof Row) => {
     setSort((prev) => {
