@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
+import { Select } from 'antd';
 import type { Row } from '@/types';
 import { nextDir, type SortDir, type SortState } from '@/utils/sort';
 import { usePagination } from '@/hooks/usePagination';
-import { Select, Button } from 'antd';
 
 interface Props { rows: Row[]; }
 
@@ -82,6 +82,14 @@ export default function CustomTable({ rows }: Props) {
   const { data, page, pages, setPage, perPage, setPerPage, range, total } =
     usePagination<Row>(sorted, 10);
 
+  const visiblePages = useMemo(() => {
+    const totalPages = Math.max(1, pages);
+    if (totalPages <= 5) return Array.from({ length: totalPages }, (_, i) => i + 1);
+    if (page <= 3) return [1, 2, 3, 4, 5];
+    if (page >= totalPages - 2) return [totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    return [page - 2, page - 1, page, page + 1, page + 2];
+  }, [page, pages]);
+
   const cycle = (key: keyof Row) => {
     setSort((prev) => {
       const dir: SortDir = prev?.key === key ? nextDir(prev.dir) : 'asc';
@@ -98,7 +106,7 @@ export default function CustomTable({ rows }: Props) {
           <Select
             value={perPage}
             onChange={(v) => { setPerPage(v); setPage(1); }}
-            options={[5,10,20,50].map(v => ({ value: v, label: String(v) }))}
+            options={[5, 10, 20, 50].map(v => ({ value: v, label: String(v) }))}
             aria-label="Items per page"
             className="tw-table__page-size-select"
           />
@@ -107,47 +115,77 @@ export default function CustomTable({ rows }: Props) {
           Näitan {range[0]}–{range[1]} / {total}
         </div>
       </div>
-
-      <table role="table" className="tw-table__grid">
-        <thead>
-          <tr>
-            {COLUMNS.map(({ key, label }) => {
-              const active = sort?.key === key;
-              const dir: SortDir = active ? sort!.dir : 'none';
-              return (
-                <th key={String(key)} scope="col" className="tw-table__header">
-                  <button
-                    onClick={() => cycle(key)}
-                    aria-label={`Sorteeri veerg: ${label}`}
-                    type="button"
-                    className="tw-table__sort"
+      <div className="tw-table__wrapper">
+        <table role="table" className="tw-table__grid">
+          <thead className="tw-table__head">
+            <tr>
+              {COLUMNS.map(({ key, label }) => {
+                const active = sort?.key === key;
+                const dir: SortDir = active ? sort!.dir : 'none';
+                return (
+                  <th
+                    key={String(key)}
+                    scope="col"
+                    className="tw-table__header"
+                    aria-sort={active ? (dir === 'asc' ? 'ascending' : 'descending') : 'none'}
                   >
-                    <SortHeader label={label} active={!!active} dir={dir} />
-                  </button>
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((r, i) => (
-            <tr key={`${r.firstName}-${r.lastName}-${i}`}>
-              {COLUMNS.map(({ key }) => (
-                <td key={String(key)} className="tw-table__cell">
-                  {formatCell(r, key)}
-                </td>
-              ))}
+                    <button
+                      onClick={() => cycle(key)}
+                      aria-label={`Sorteeri veerg: ${label}`}
+                      type="button"
+                      className="tw-table__sort"
+                    >
+                      <SortHeader label={label} active={!!active} dir={dir} />
+                    </button>
+                  </th>
+                );
+              })}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="tw-table__body">
+            {data.map((r, i) => (
+              <tr key={`${r.firstName}-${r.lastName}-${i}`} className="tw-table__row">
+                {COLUMNS.map(({ key }) => (
+                  <td key={String(key)} className="tw-table__cell">
+                    {formatCell(r, key)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <nav aria-label="Lehekülgede vahetus" className="tw-table__pagination">
-        <Button onClick={() => setPage(page-1)} disabled={page<=1}>{'<'}</Button>
-        {Array.from({ length: pages }, (_, i) => i + 1).map(p => (
-          <Button key={p} type={p===page?'primary':'default'} onClick={() => setPage(p)} aria-current={p===page ? 'page' : undefined}>{p}</Button>
+        <button
+          type="button"
+          className="tw-table__pagination-btn tw-table__pagination-btn--nav"
+          onClick={() => setPage(page - 1)}
+          disabled={page <= 1}
+          aria-label="Eelmine leht"
+        >
+          ‹
+        </button>
+        {visiblePages.map(p => (
+          <button
+            key={p}
+            type="button"
+            className={`tw-table__pagination-btn${p === page ? ' tw-table__pagination-btn--active' : ''}`}
+            onClick={() => setPage(p)}
+            aria-current={p === page ? 'page' : undefined}
+          >
+            {p}
+          </button>
         ))}
-        <Button onClick={() => setPage(page+1)} disabled={page>=pages}>{'>'}</Button>
+        <button
+          type="button"
+          className="tw-table__pagination-btn tw-table__pagination-btn--nav"
+          onClick={() => setPage(page + 1)}
+          disabled={page >= pages}
+          aria-label="Järgmine leht"
+        >
+          ›
+        </button>
       </nav>
     </div>
   );
