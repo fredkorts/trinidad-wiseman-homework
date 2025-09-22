@@ -1,44 +1,43 @@
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  FileTextOutlined,
-  TableOutlined,
-  QuestionCircleOutlined,
-} from '@ant-design/icons';
-import { Button, Menu, Grid } from 'antd';
+import { FileTextOutlined, QuestionCircleOutlined, TableOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
+import type { MenuProps } from 'antd';
 import Sider from 'antd/es/layout/Sider';
-import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '@/assets/images/logo.svg';
 
-const { useBreakpoint } = Grid;
+type SidebarProps = {
+  isMobile: boolean;
+  open: boolean;
+  onClose?: () => void;
+};
 
-export function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const screens = useBreakpoint();
-  const isMobile = !screens.lg; // < lg => mobile/tablet
+const menuItems: MenuProps['items'] = [
+  { key: '/', icon: <QuestionCircleOutlined />, label: 'Nõuded' },
+  { key: '/article', icon: <FileTextOutlined />, label: 'Artikkel' },
+  { key: '/table', icon: <TableOutlined />, label: 'Tabel' },
+];
+
+export function Sidebar({ isMobile, open, onClose }: SidebarProps) {
   const nav = useNavigate();
   const loc = useLocation();
 
-  const items = [
-    { key: '/', icon: <QuestionCircleOutlined />, label: 'Nõuded' },
-    { key: '/article', icon: <FileTextOutlined />, label: 'Artikkel' },
-    { key: '/table', icon: <TableOutlined />, label: 'Tabel' },
-  ];
+  const classNames = ['tw-sider'];
+
+  if (isMobile) {
+    classNames.push('tw-sider--mobile');
+
+    if (open) {
+      classNames.push('tw-sider--open');
+    }
+  }
 
   return (
     <Sider
-      className="tw-sider"
+      className={classNames.join(' ')}
       theme="light"
-      /* Desktop: never collapsed; Mobile: controlled collapse */
-      collapsed={isMobile ? collapsed : false}
-      collapsedWidth={isMobile ? 0 : 220}
       width={220}
-      /* No built-in trigger; we render a button only on mobile */
       trigger={null}
-      /* Auto-collapse when crossing breakpoint */
-      breakpoint="lg"
-      onBreakpoint={(broken) => setCollapsed(broken)}
+      aria-hidden={isMobile && !open}
     >
       <div className="tw-logo" style={{ gap: 8 }}>
         <img src={logo} alt="Trinidad Wiseman" />
@@ -57,10 +56,12 @@ export function Sidebar() {
       <Menu
         mode="inline"
         selectedKeys={[loc.pathname]}
-        items={items}
+        items={menuItems}
         onClick={({ key }) => {
           nav(String(key));
-          if (isMobile) setCollapsed(true); // close after navigating on mobile
+          if (isMobile && onClose) {
+            onClose();
+          }
         }}
       />
     </Sider>
