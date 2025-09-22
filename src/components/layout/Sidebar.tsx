@@ -41,7 +41,7 @@ export function Sidebar() {
       onBreakpoint={(broken) => setCollapsed(broken)}
     >
       <div className="tw-logo" style={{ gap: 8 }}>
-        <img src={logo} alt="Trinidad Wiseman" style={{ height: 28, width: 'auto' }} />
+        <img src={logo} alt="Trinidad Wiseman" />
         {/* Show toggle button ONLY on mobile */}
         {isMobile && (
           <Button
