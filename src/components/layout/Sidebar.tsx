@@ -40,7 +40,17 @@ export function Sidebar({ isMobile, open, onClose }: SidebarProps) {
       aria-hidden={isMobile && !open}
     >
       <div className="tw-logo" style={{ gap: 8 }}>
-        <img src={logo} alt="Trinidad Wiseman" style={{ height: 28, width: 'auto' }} />
+        <img src={logo} alt="Trinidad Wiseman" />
+        {/* Show toggle button ONLY on mobile */}
+        {isMobile && (
+          <Button
+            aria-label={collapsed ? 'Ava külgriba' : 'Sulge külgriba'}
+            type="text"
+            onClick={() => setCollapsed((v) => !v)}
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            style={{ marginLeft: 'auto' }}
+          />
+        )}
       </div>
 
       <Menu
