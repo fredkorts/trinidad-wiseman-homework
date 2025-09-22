@@ -1,6 +1,7 @@
 :root {
   --bg: #3a3d57;
   --text: #ffffff;
+  --secondary: #ff57a2;
 }
 
 html, body, #root { height: 100%; }
@@ -28,35 +29,118 @@ body {
   filter: none;
 }
 
-/* bottom-left dots */
-.tw-layout::before {
-  left: 0;
+/* keep Ant Design surfaces readable on dark bg */
+.ant-layout { 
+    background: var(--bg);
+}
+
+.ant-layout-sider-children {
+  position:fixed;
+  width: 220px;
+}
+
+.ant-layout-content {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  margin-bottom: 5rem; 
+  margin-top: 5rem;
+}
+
+.ant-layout-content::before,
+.ant-layout-content::after {
+  content: "";
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.9;
+}
+
+.ant-layout-content::before {
+  left: 220px; /* offset by sidebar width */
   bottom: 0;
   width: min(33vw, 520px);
   height: min(33vw, 520px);
   background: url("../images/bg-deco-left.svg") left bottom / contain no-repeat;
 }
 
-/* top-right dots */
-.tw-layout::after {
+.ant-layout-content::after {
   right: 0;
   top: 0;
-  width: min(40vw, 640px);
-  height: min(40vw, 640px);
+  width: min(33vw, 520px);
+  height: min(33vw, 520px);
   background: url("../images/bg-deco-right.svg") right top / contain no-repeat;
 }
 
-/* keep Ant Design surfaces readable on dark bg */
-.ant-layout { background: transparent !important; }
-.ant-card { background: rgba(0,0,0,0.15); border: none; }
+.ant-card-body {
+    padding: 0 !important;
+}
+
+/* Adjust for mobile when sidebar is hidden */
+@media (max-width: 959.98px) {
+  .ant-layout-content::before {
+    left: 0; /* no sidebar offset on mobile */
+  }
+}
+.ant-card { background: transparent; border: none; }
 .ant-typography, .ant-card, .ant-alert { color: var(--text); }
 
 /* Big uppercase H1 like the screenshot */
 h1 {
-  font-weight: 900;
+  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600; /* Black */
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  font-size: 2.8125rem;
+  text-align: center;
   color: var(--text);
+}
+
+/* Other heading styles */
+h2 {
+  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600; /* Bold */
+  color: var(--text);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 400; /* Medium */
+  color: var(--text);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+h4, h5, h6 {
+  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text);
+}
+
+/* Paragraph styles */
+p {
+  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 400; /* Regular */
+  line-height: 1.6;
+  margin: 2.5rem 0;
+  color: var(--text);
+}
+
+/* Special paragraph variants */
+.lead-text {
+  font-weight: 300; /* Light */
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.emphasis-text {
+  font-weight: 500; /* Medium */
+}
+
+.small-text {
+  font-weight: 300; /* Light */
+  font-size: 0.875rem;
 }
 
 /* Sidebar (light) vs content (dark) look */
@@ -66,12 +150,64 @@ h1 {
 }
 .tw-sider .tw-logo {
   margin: 1.5625rem 0 3.125rem;
-  padding: 16px;
+  padding: 1.5625rem;
   display: flex;
   align-items: center;
 }
 .tw-sider .ant-menu {
   background: transparent;
+}
+
+.article-header {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+}
+
+.article-image {
+  position: relative;
+  text-align: center;
+  margin: 1.25rem 0;
+  display: inline-block;
+  width: 100%;
+}
+
+.article-image .alt {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--text);
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  opacity: 0.9;
+  text-align: left;
+}
+
+.article-intro,
+.article-intro p,
+.article-intro div {
+    font-weight: 900 !important;
+    font-size: 16px;
+}
+
+.article-body {
+    font-size: 16px;
+}
+
+.article-tags {
+  margin-top: 2rem;
+  .ant-tag {
+    background: var(--secondary);
+    color: white;
+    display: inline-block;
+    padding: .5rem 1rem;
+    border-radius: 2rem;
+    border-color: var(--secondary);
+    font-size: 14px;
+    font-weight: 700;
+  }
 }
 
 .tw-mobile-header {

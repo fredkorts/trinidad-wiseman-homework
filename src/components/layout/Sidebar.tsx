@@ -12,7 +12,7 @@ type SidebarProps = {
 };
 
 const menuItems: MenuProps['items'] = [
-  { key: '/', icon: <QuestionCircleOutlined />, label: 'Nõuded' },
+  { key: '/', icon: <QuestionCircleOutlined />, label: 'Avaleht' },
   { key: '/article', icon: <FileTextOutlined />, label: 'Artikkel' },
   { key: '/table', icon: <TableOutlined />, label: 'Tabel' },
 ];
@@ -41,16 +41,6 @@ export function Sidebar({ isMobile, open, onClose }: SidebarProps) {
     >
       <div className="tw-logo" style={{ gap: 8 }}>
         <img src={logo} alt="Trinidad Wiseman" />
-        {/* Show toggle button ONLY on mobile */}
-        {isMobile && (
-          <Button
-            aria-label={collapsed ? 'Ava külgriba' : 'Sulge külgriba'}
-            type="text"
-            onClick={() => setCollapsed((v) => !v)}
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            style={{ marginLeft: 'auto' }}
-          />
-        )}
       </div>
 
       <Menu
