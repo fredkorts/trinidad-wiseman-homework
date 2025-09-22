@@ -91,33 +91,36 @@ export default function CustomTable({ rows }: Props) {
   };
 
   return (
-    <div>
-      <div className="controls" style={{ display: 'flex', gap: 12, marginBottom: 12, alignItems: 'center' }}>
-        <label>
-          Items per page{' '}
+    <div className="tw-table">
+      <div className="tw-table__controls">
+        <label className="tw-table__label">
+          <span>Items per page</span>
           <Select
             value={perPage}
             onChange={(v) => { setPerPage(v); setPage(1); }}
             options={[5,10,20,50].map(v => ({ value: v, label: String(v) }))}
             aria-label="Items per page"
-            style={{ width: 120 }}
+            className="tw-table__page-size-select"
           />
         </label>
-        <div aria-live="polite" aria-atomic="true">Näitan {range[0]}–{range[1]} / {total}</div>
+        <div className="tw-table__range" aria-live="polite" aria-atomic="true">
+          Näitan {range[0]}–{range[1]} / {total}
+        </div>
       </div>
 
-      <table role="table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table role="table" className="tw-table__grid">
         <thead>
           <tr>
             {COLUMNS.map(({ key, label }) => {
               const active = sort?.key === key;
               const dir: SortDir = active ? sort!.dir : 'none';
               return (
-                <th key={String(key)} scope="col" style={{ textAlign: 'left', borderBottom: '1px solid #eee', padding: 8 }}>
+                <th key={String(key)} scope="col" className="tw-table__header">
                   <button
                     onClick={() => cycle(key)}
                     aria-label={`Sorteeri veerg: ${label}`}
-                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', font: 'inherit', color: 'inherit' }}
+                    type="button"
+                    className="tw-table__sort"
                   >
                     <SortHeader label={label} active={!!active} dir={dir} />
                   </button>
@@ -130,7 +133,7 @@ export default function CustomTable({ rows }: Props) {
           {data.map((r, i) => (
             <tr key={`${r.firstName}-${r.lastName}-${i}`}>
               {COLUMNS.map(({ key }) => (
-                <td key={String(key)} style={{ padding: 8, borderBottom: '1px solid #f5f5f5' }}>
+                <td key={String(key)} className="tw-table__cell">
                   {formatCell(r, key)}
                 </td>
               ))}
@@ -139,7 +142,7 @@ export default function CustomTable({ rows }: Props) {
         </tbody>
       </table>
 
-      <nav aria-label="Lehekülgede vahetus" style={{ marginTop: 12, display: 'flex', gap: 8 }}>
+      <nav aria-label="Lehekülgede vahetus" className="tw-table__pagination">
         <Button onClick={() => setPage(page-1)} disabled={page<=1}>{'<'}</Button>
         {Array.from({ length: pages }, (_, i) => i + 1).map(p => (
           <Button key={p} type={p===page?'primary':'default'} onClick={() => setPage(p)} aria-current={p===page ? 'page' : undefined}>{p}</Button>

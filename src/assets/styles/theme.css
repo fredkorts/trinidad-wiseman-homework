@@ -2,6 +2,21 @@
   --bg: #3a3d57;
   --text: #ffffff;
   --secondary: #ff57a2;
+  --font-base: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --focus-outline: #1677ff;
+  --header-height: 3.125rem;
+  --sider-width: 220px;
+  --content-max-width: 62.5rem;
+  --content-padding: 1.5rem;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 5rem;
+  --table-border: rgba(255, 255, 255, 0.12);
 }
 
 html, body, #root { height: 100%; }
@@ -9,63 +24,56 @@ html, body, #root { height: 100%; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: var(--font-base);
   line-height: 1.6;
 }
 
-/* A wrapper that paints fixed corner decorations without repeating */
 .tw-layout {
   position: relative;
   min-height: 100vh;
 }
 
-.tw-layout::before,
-.tw-layout::after {
-  content: "";
-  position: fixed;           /* stay pinned even when scrolling */
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.9;
-  filter: none;
+.ant-layout {
+  background: var(--bg);
 }
 
-/* keep Ant Design surfaces readable on dark bg */
-.ant-layout { 
-    background: var(--bg);
+.ant-layout-sider {
+  width: var(--sider-width) !important;
+  max-width: var(--sider-width) !important;
+  flex: 0 0 var(--sider-width) !important;
 }
 
 .ant-layout-sider-children {
-  position:fixed;
-  width: 220px;
+  height: 100%;
 }
 
-.ant-layout-content {
+.tw-content {
   position: relative;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 24px;
-  margin-bottom: 5rem; 
-  margin-top: 5rem;
+  z-index: 0;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: var(--space-3xl) auto;
+  padding: var(--content-padding);
 }
 
-.ant-layout-content::before,
-.ant-layout-content::after {
+.tw-content::before,
+.tw-content::after {
   content: "";
-  position: fixed;
+  position: absolute;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
   opacity: 0.9;
 }
 
-.ant-layout-content::before {
-  left: 220px; /* offset by sidebar width */
+.tw-content::before {
+  left: 0;
   bottom: 0;
   width: min(33vw, 520px);
   height: min(33vw, 520px);
   background: url("../images/bg-deco-left.svg") left bottom / contain no-repeat;
 }
 
-.ant-layout-content::after {
+.tw-content::after {
   right: 0;
   top: 0;
   width: min(33vw, 520px);
@@ -74,101 +82,129 @@ body {
 }
 
 .ant-card-body {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
-/* Adjust for mobile when sidebar is hidden */
-@media (max-width: 959.98px) {
-  .ant-layout-content::before {
-    left: 0; /* no sidebar offset on mobile */
-  }
-}
 .ant-card { background: transparent; border: none; }
 .ant-typography, .ant-card, .ant-alert { color: var(--text); }
 
-/* Big uppercase H1 like the screenshot */
 h1 {
-  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 600; /* Black */
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   font-size: 2.8125rem;
   text-align: center;
   color: var(--text);
+  margin: 0 0 var(--space-lg);
 }
 
-/* Other heading styles */
 h2 {
-  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 600; /* Bold */
+  font-weight: 600;
   color: var(--text);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-md);
 }
 
 h3 {
-  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 400; /* Medium */
+  font-weight: 400;
   color: var(--text);
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-sm);
 }
+
 h4, h5, h6 {
-  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--text);
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-xs);
 }
 
-/* Paragraph styles */
 p {
-  font-family: "Booster Next FY", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 400; /* Regular */
-  line-height: 1.6;
-  margin: 2.5rem 0;
+  font-weight: 400;
+  line-height: 1.7;
+  margin: var(--space-md) 0;
   color: var(--text);
 }
 
-/* Special paragraph variants */
 .lead-text {
-  font-weight: 300; /* Light */
+  font-weight: 300;
   font-size: 1.125rem;
   line-height: 1.7;
 }
 
 .emphasis-text {
-  font-weight: 500; /* Medium */
+  font-weight: 500;
 }
 
 .small-text {
-  font-weight: 300; /* Light */
+  font-weight: 300;
   font-size: 0.875rem;
 }
 
-/* Sidebar (light) vs content (dark) look */
+.page-title {
+  text-transform: none;
+  letter-spacing: 0;
+  text-align: center;
+  margin: 0 0 var(--space-md);
+}
+
 .tw-sider {
   background: #ffffff !important;
-  border-right: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
 }
+
 .tw-sider .tw-logo {
-  margin: 1.5625rem 0 3.125rem;
-  padding: 1.5625rem;
+  margin: var(--space-xl) 0 var(--space-2xl);
+  padding: var(--space-xl);
   display: flex;
   align-items: center;
+  gap: var(--space-sm);
 }
+
 .tw-sider .ant-menu {
   background: transparent;
 }
 
 .article-header {
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.5rem;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+}
+
+.article-header h1 {
+  margin: 0;
+}
+
+.article-intro {
+  margin-bottom: var(--space-md);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.article-intro > * {
+  margin: 0;
+  font-weight: inherit;
+}
+
+.article-intro > * + * {
+  margin-top: var(--space-sm);
+}
+
+.article-body {
+  font-size: 1rem;
 }
 
 .article-image {
   position: relative;
   text-align: center;
-  margin: 1.25rem 0;
+  margin: var(--space-md) 0;
   display: inline-block;
   width: 100%;
+}
+
+.article-image__media,
+.article-image .ant-image-img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .article-image .alt {
@@ -179,35 +215,93 @@ p {
   background: rgba(0, 0, 0, 0.7);
   color: var(--text);
   font-size: 0.875rem;
-  padding: 0.5rem 1rem;
+  padding: var(--space-sm) var(--space-md);
   margin: 0;
   opacity: 0.9;
   text-align: left;
 }
 
-.article-intro,
-.article-intro p,
-.article-intro div {
-    font-weight: 900 !important;
-    font-size: 16px;
-}
-
-.article-body {
-    font-size: 16px;
+.article-footer {
+  margin-top: var(--space-xl);
 }
 
 .article-tags {
-  margin-top: 2rem;
-  .ant-tag {
-    background: var(--secondary);
-    color: white;
-    display: inline-block;
-    padding: .5rem 1rem;
-    border-radius: 2rem;
-    border-color: var(--secondary);
-    font-size: 14px;
-    font-weight: 700;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
+.article-tags .ant-tag {
+  background: var(--secondary);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  border-color: var(--secondary);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.tw-table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.tw-table__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.tw-table__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-weight: 500;
+}
+
+.tw-table__page-size-select {
+  width: 7.5rem;
+}
+
+.tw-table__range {
+  font-size: 0.875rem;
+}
+
+.tw-table__grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tw-table__header {
+  text-align: left;
+  border-bottom: 1px solid var(--table-border);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.tw-table__sort {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.tw-table__cell {
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tw-table__pagination {
+  margin-top: var(--space-md);
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .tw-mobile-header {
@@ -215,23 +309,25 @@ p {
   top: 0;
   left: 0;
   width: 100%;
-  height: 3.125rem;
+  height: var(--header-height);
   background: #ffffff;
+  color: #1f1f1f;
   z-index: 999;
-  padding: 0.625rem 1.25rem;
+  padding: var(--space-sm) var(--space-xl);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --focus-outline: #1f1f1f;
 }
 
 .tw-mobile-header__toggle {
   position: absolute;
-  left: 1.25rem;
+  left: var(--space-xl);
   top: 50%;
   transform: translateY(-50%);
   font-size: 1.25rem;
-  color: #1f1f1f;
+  color: inherit;
 }
 
 .tw-mobile-header__logo {
@@ -252,13 +348,22 @@ p {
 }
 
 @media (max-width: 959.98px) {
+  .tw-content {
+    margin: var(--space-xl) auto var(--space-2xl);
+    padding: calc(var(--header-height) + var(--content-padding)) var(--content-padding) var(--content-padding);
+  }
+
+  .tw-content::before {
+    left: 0;
+  }
+
   .tw-sider.tw-sider--mobile {
     position: fixed !important;
-    top: 3.125rem;
+    top: var(--header-height);
     left: 0;
     bottom: 0;
-    width: 220px;
-    height: calc(100vh - 3.125rem);
+    width: var(--sider-width);
+    height: calc(100vh - var(--header-height));
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     z-index: 998;
@@ -270,5 +375,10 @@ p {
   .tw-sider.tw-sider--mobile.tw-sider--open {
     transform: translateX(0);
     pointer-events: auto;
+  }
+
+  .tw-table__controls {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
