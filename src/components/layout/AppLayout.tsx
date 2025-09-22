@@ -18,7 +18,7 @@ export default function AppLayout() {
   }, [isMobile]);
 
   return (
-    <Layout className="tw-layout" style={{ minHeight: '100vh' }}>
+    <Layout className="tw-layout">
       <Sidebar
         isMobile={isMobile}
         open={!isMobile || isSidebarOpen}
@@ -31,13 +31,7 @@ export default function AppLayout() {
             onToggle={() => setIsSidebarOpen((prev) => !prev)}
           />
         )}
-        <Layout.Content
-          style={{
-            padding: isMobile ? 'calc(3.125rem + 24px) 24px 24px' : '24px',
-            position: 'relative',
-            zIndex: 1,
-          }}
-        >
+        <Layout.Content className="tw-content">
           <Outlet />
         </Layout.Content>
       </Layout>

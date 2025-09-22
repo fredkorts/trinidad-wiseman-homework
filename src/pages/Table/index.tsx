@@ -10,7 +10,7 @@ export default function TablePage() {
 
   return (
     <>
-      <h1 style={{ textAlign: 'center', letterSpacing: 1, marginTop: 0, marginBottom: 16 }}>NIMEKIRI</h1>
+      <h1 className="page-title">NIMEKIRI</h1>
       <Card>
         <CustomTable rows={data ?? []} />
       </Card>

@@ -39,7 +39,7 @@ export function Sidebar({ isMobile, open, onClose }: SidebarProps) {
       trigger={null}
       aria-hidden={isMobile && !open}
     >
-      <div className="tw-logo" style={{ gap: 8 }}>
+      <div className="tw-logo">
         <img src={logo} alt="Trinidad Wiseman" />
       </div>
 
