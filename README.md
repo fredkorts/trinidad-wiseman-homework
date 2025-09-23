@@ -1,69 +1,97 @@
-# React + TypeScript + Vite
+# Trinidad Wiseman Homework
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React single-page application bootstrapped with Vite and TypeScript. The project pairs Ant Design UI components with React Query-driven data fetching and includes tooling for unit tests, end-to-end tests, and linting.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Framework:** [React 19](https://react.dev/) with [React Router](https://reactrouter.com/) for routing
+- **Build tooling:** [Vite](https://vitejs.dev/) with TypeScript and vite-tsconfig-paths
+- **UI library:** [Ant Design](https://ant.design/) and Ant Design Icons
+- **Data fetching:** [Axios](https://axios-http.com/) with [TanStack Query](https://tanstack.com/query/latest)
+- **Testing:** [Vitest](https://vitest.dev/) with Testing Library, plus [Playwright](https://playwright.dev/) for end-to-end coverage
+- **Code quality:** ESLint (TypeScript + React rules) and Prettier
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Node.js** 18 or newer (LTS recommended)
+- **npm** 9 or newer (ships with Node.js installs)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+You can confirm your versions with:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+node --version
+npm --version
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+2. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+   The Vite dev server runs on [http://localhost:5173](http://localhost:5173) by default.
+3. *(Optional)* **Start the mock API** used during development
+   ```bash
+   npm run mock
+   ```
+   The mock server listens on port `8888`. You can run it alongside the Vite dev server in a separate terminal.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Available Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite development server with hot module reloading. |
+| `npm run mock` | Launch the local mock API server on port 8888. |
+| `npm run build` | Type-check the project and generate a production build. |
+| `npm run preview` | Preview the production build locally after running `npm run build`. |
+| `npm run lint` | Run ESLint across the codebase. |
+| `npm run e2e` | Execute Playwright end-to-end test suites. |
+
+## Running Tests
+
+### Unit and Component Tests (Vitest)
+
+Vitest is configured via `vitest.setup.ts`. You can run the test watcher or a single run:
+
+```bash
+npx vitest
+# or for a single run
+npx vitest run
 ```
+
+### End-to-End Tests (Playwright)
+
+To run the browser tests:
+
+```bash
+npm run e2e
+```
+
+Playwright will automatically install required browsers on the first execution.
+
+### Linting
+
+Ensure code style and quality checks pass before committing:
+
+```bash
+npm run lint
+```
+
+## Project Structure Highlights
+
+- `src/` – Application source code (components, hooks, routes, and styles)
+- `public/` – Static assets copied as-is to the build output
+- `mock.server.js` – Express-based mock API used during local development
+- `playwright.config.ts` – Configuration for Playwright E2E tests
+
+## Additional Resources
+
+- [Vite documentation](https://vitejs.dev/guide/)
+- [Ant Design documentation](https://ant.design/components/overview/)
+- [TanStack Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview)
+- [Playwright documentation](https://playwright.dev/docs/intro)
+
