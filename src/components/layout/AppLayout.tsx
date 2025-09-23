@@ -8,6 +8,8 @@ import { MobileHeader } from './MobileHeader';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/constants';
 
+const SIDEBAR_ID = 'app-sidebar';
+
 export default function AppLayout() {
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -21,6 +23,7 @@ export default function AppLayout() {
   return (
     <Layout className="tw-layout">
       <Sidebar
+        id={SIDEBAR_ID}
         isMobile={isMobile}
         open={!isMobile || isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
@@ -30,10 +33,13 @@ export default function AppLayout() {
           <MobileHeader
             isOpen={isSidebarOpen}
             onToggle={() => setIsSidebarOpen((prev) => !prev)}
+            sidebarId={SIDEBAR_ID}
           />
         )}
         <Layout.Content className="tw-content">
-          <Outlet />
+          <main id="main-content" className="tw-content__main">
+            <Outlet />
+          </main>
         </Layout.Content>
       </Layout>
     </Layout>

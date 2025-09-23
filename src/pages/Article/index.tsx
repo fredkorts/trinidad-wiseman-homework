@@ -2,6 +2,7 @@ import { Alert, Card, Skeleton, Tag, Image, Divider } from 'antd';
 import { useEffect } from 'react';
 import { useArticle } from '@/services/api';
 import { ARTICLE_PAGE_COPY, ARTICLE_PAGE_IDS } from '@/constants';
+import { sanitizeHtml } from '@/utils/sanitizeHtml';
 
 export default function ArticlePage() {
   const { data, isLoading, isError, error } = useArticle();
@@ -24,6 +25,9 @@ export default function ArticlePage() {
     );
   }
 
+  const introHtml = data?.intro ? sanitizeHtml(data.intro) : '';
+  const bodyHtml = data?.body ? sanitizeHtml(data.body) : '';
+
   if (!data) return null;
 
   return (
@@ -35,9 +39,9 @@ export default function ArticlePage() {
         </header>
 
         {/* Intro (HTML) */}
-        {data.intro && (
+        {introHtml && (
           <section className="article-intro" aria-label={ARTICLE_PAGE_COPY.INTRO_SECTION_ARIA_LABEL}>
-            <div dangerouslySetInnerHTML={{ __html: data.intro }} />
+            <div dangerouslySetInnerHTML={{ __html: introHtml }} />
           </section>
         )}
 
@@ -57,9 +61,9 @@ export default function ArticlePage() {
         <Divider />
 
         {/* Body (HTML) */}
-        {data.body && (
+        {bodyHtml && (
           <section className="article-body" aria-label={ARTICLE_PAGE_COPY.BODY_SECTION_ARIA_LABEL}>
-            <div dangerouslySetInnerHTML={{ __html: data.body }} />
+            <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
           </section>
         )}
 

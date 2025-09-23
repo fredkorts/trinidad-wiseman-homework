@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import ArticlePage from '../Article';
 import { ARTICLE_PAGE_COPY } from '@/constants';
@@ -95,6 +95,51 @@ describe('ArticlePage', () => {
     await waitFor(() => expect(document.title).toBe(article.title));
   });
 
+  it('sanitizes HTML fields before rendering', () => {
+    const article: Article = {
+      id: 'a-2',
+      boolean: false,
+      phone: '+372 555-0100',
+      date: 1_700_000_000,
+      tags: ['security'],
+      sex: 'f',
+      firstname: 'Jane',
+      surname: 'Doe',
+      email: 'jane@example.com',
+      title: 'Sanitized article',
+      intro: "<a href=\"javascript:alert('xss')\">Intro link</a>",
+      body: "<p>Body</p><script>alert('xss')</script><img src=\"image.jpg\" onerror=\"hack()\" />",
+      personal_code: 123456,
+      image: {
+        large: 'large.jpg',
+        medium: 'medium.jpg',
+        small: 'small.jpg',
+        alt: 'Hero alt',
+        title: 'Hero caption',
+      },
+      images: [],
+    };
+
+    useArticleMock.mockReturnValue({
+      data: article,
+      isLoading: false,
+      isError: false,
+      error: null,
+    } as never);
+
+    const { getByLabelText } = render(<ArticlePage />);
+
+    const introSection = getByLabelText(ARTICLE_PAGE_COPY.INTRO_SECTION_ARIA_LABEL);
+    const introLink = introSection.querySelector('a');
+    expect(introSection).toHaveTextContent('Intro link');
+    expect(introLink?.getAttribute('href')).toBeNull();
+
+    const bodySection = getByLabelText(ARTICLE_PAGE_COPY.BODY_SECTION_ARIA_LABEL);
+    expect(bodySection).toHaveTextContent('Body');
+    expect(bodySection.querySelector('script')).toBeNull();
+    expect(bodySection.querySelector('img')?.getAttribute('onerror')).toBeNull();
+  });
+
   it('renders nothing when data is null', () => {
     useArticleMock.mockReturnValue({
       data: null,
@@ -109,5 +154,6 @@ describe('ArticlePage', () => {
 });
 
 afterEach(() => {
+  cleanup();
   document.title = originalTitle;
 });

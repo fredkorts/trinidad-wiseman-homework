@@ -42,12 +42,16 @@ describe('AppLayout', () => {
     expect(screen.queryByRole('button', { name: MOBILE_HEADER_COPY.OPEN_SIDEBAR })).toBeNull();
 
     const sidebarCall = sidebarSpy.mock.calls.at(-1)?.[0];
+    expect(sidebarCall?.id).toBe('app-sidebar');
     expect(sidebarCall?.isMobile).toBe(false);
     expect(sidebarCall?.open).toBe(true);
 
     const sidebar = container.querySelector('.tw-sider');
     expect(sidebar).not.toHaveClass('tw-sider--mobile');
     expect(sidebar?.getAttribute('aria-hidden')).not.toBe('true');
+
+    const main = container.querySelector('main#main-content');
+    expect(main).toBeInTheDocument();
 
     sidebarSpy.mockRestore();
   });
@@ -60,6 +64,7 @@ describe('AppLayout', () => {
 
     const toggle = screen.getByRole('button', { name: MOBILE_HEADER_COPY.OPEN_SIDEBAR });
     expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(toggle).toHaveAttribute('aria-controls', 'app-sidebar');
 
     const sidebarInitial = sidebarSpy.mock.calls[0]?.[0];
     expect(sidebarInitial?.isMobile).toBe(true);
@@ -76,6 +81,7 @@ describe('AppLayout', () => {
 
     const sidebar = document.querySelector('.tw-sider');
     expect(sidebar?.getAttribute('aria-hidden')).toBe('false');
+    expect(sidebar?.id).toBe('app-sidebar');
 
     sidebarSpy.mockRestore();
   });
@@ -88,7 +94,7 @@ describe('Sidebar', () => {
 
     const { container } = render(
       <MemoryRouter initialEntries={[ROUTES.HOME]}>
-        <Sidebar isMobile={false} open onClose={onClose} />
+        <Sidebar id="sidebar" isMobile={false} open onClose={onClose} />
       </MemoryRouter>,
     );
 
@@ -109,7 +115,7 @@ describe('Sidebar', () => {
 
     const { container } = render(
       <MemoryRouter initialEntries={[ROUTES.HOME]}>
-        <Sidebar isMobile open onClose={onClose} />
+        <Sidebar id="sidebar" isMobile open onClose={onClose} />
       </MemoryRouter>,
     );
 
@@ -127,7 +133,7 @@ describe('Sidebar', () => {
   it('hides the sidebar when closed on mobile', () => {
     const { container } = render(
       <MemoryRouter initialEntries={[ROUTES.HOME]}>
-        <Sidebar isMobile open={false} />
+        <Sidebar id="sidebar" isMobile open={false} />
       </MemoryRouter>,
     );
 
@@ -146,11 +152,13 @@ describe('MobileHeader', () => {
         onToggle={() => {
           /* noop */
         }}
+        sidebarId="sidebar"
       />,
     );
 
     const button = screen.getByRole('button', { name: MOBILE_HEADER_COPY.OPEN_SIDEBAR });
     expect(button).toHaveAttribute('aria-expanded', 'false');
+    expect(button).toHaveAttribute('aria-controls', 'sidebar');
 
     rerender(
       <MobileHeader
@@ -158,12 +166,12 @@ describe('MobileHeader', () => {
         onToggle={() => {
           /* noop */
         }}
+        sidebarId="sidebar"
       />,
     );
 
-    expect(screen.getByRole('button', { name: MOBILE_HEADER_COPY.CLOSE_SIDEBAR })).toHaveAttribute(
-      'aria-expanded',
-      'true',
-    );
+    const closeButton = screen.getByRole('button', { name: MOBILE_HEADER_COPY.CLOSE_SIDEBAR });
+    expect(closeButton).toHaveAttribute('aria-expanded', 'true');
+    expect(closeButton).toHaveAttribute('aria-controls', 'sidebar');
   });
 });

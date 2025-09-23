@@ -39,6 +39,16 @@ export const ARTICLE_PAGE_IDS = {
   TITLE: 'article-title',
 } as const;
 
+export const NOT_FOUND_COPY = {
+  TITLE: 'Lehte ei leitud',
+  DESCRIPTION: 'Vabandust, sellist lehekülge ei leitud.',
+  ACTION: 'Tagasi avalehele',
+} as const;
+
+export const NOT_FOUND_IDS = {
+  TITLE: 'not-found-title',
+} as const;
+
 export const TABLE_PAGE_COPY = {
   TITLE: 'NIMEKIRI',
   LOAD_ERROR: 'Failed to load table data',
