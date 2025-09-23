@@ -1,6 +1,6 @@
 # Trinidad Wiseman Homework
 
-A React single-page application bootstrapped with Vite and TypeScript. The project pairs Ant Design UI components with React Query-driven data fetching and includes tooling for unit tests, end-to-end tests, and linting.
+A React single-page application bootstrapped with Vite and TypeScript. The project pairs Ant Design UI components with React Query-driven data fetching and includes tooling for unit tests and linting.
 
 ## Tech Stack
 
@@ -8,7 +8,7 @@ A React single-page application bootstrapped with Vite and TypeScript. The proje
 - **Build tooling:** [Vite](https://vitejs.dev/) with TypeScript and vite-tsconfig-paths
 - **UI library:** [Ant Design](https://ant.design/) and Ant Design Icons
 - **Data fetching:** [Axios](https://axios-http.com/) with [TanStack Query](https://tanstack.com/query/latest)
-- **Testing:** [Vitest](https://vitest.dev/) with Testing Library, plus [Playwright](https://playwright.dev/) for end-to-end coverage
+- **Testing:** [Vitest](https://vitest.dev/) with Testing Library
 - **Code quality:** ESLint (TypeScript + React rules) and Prettier
 
 ## Prerequisites
@@ -49,29 +49,20 @@ npm --version
 | `npm run build` | Type-check the project and generate a production build. |
 | `npm run preview` | Preview the production build locally after running `npm run build`. |
 | `npm run lint` | Run ESLint across the codebase. |
-| `npm run e2e` | Execute Playwright end-to-end test suites. |
+| `npm test` | Execute the Vitest unit test suite once. |
+| `npm run test:watch` | Run Vitest in watch mode for rapid feedback while developing. |
 
 ## Running Tests
 
 ### Unit and Component Tests (Vitest)
 
-Vitest is configured via `vitest.setup.ts`. You can run the test watcher or a single run:
+Vitest is configured via `vitest.setup.ts`. You can run all tests in a single pass or start the interactive watcher:
 
 ```bash
-npx vitest
-# or for a single run
-npx vitest run
+npm test
+# or for watch mode
+npm run test:watch
 ```
-
-### End-to-End Tests (Playwright)
-
-To run the browser tests:
-
-```bash
-npm run e2e
-```
-
-Playwright will automatically install required browsers on the first execution.
 
 ### Linting
 
@@ -86,12 +77,10 @@ npm run lint
 - `src/` – Application source code (components, hooks, routes, and styles)
 - `public/` – Static assets copied as-is to the build output
 - `mock.server.js` – Express-based mock API used during local development
-- `playwright.config.ts` – Configuration for Playwright E2E tests
 
 ## Additional Resources
 
 - [Vite documentation](https://vitejs.dev/guide/)
 - [Ant Design documentation](https://ant.design/components/overview/)
 - [TanStack Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview)
-- [Playwright documentation](https://playwright.dev/docs/intro)
 
