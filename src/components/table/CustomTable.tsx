@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { Select } from 'antd';
 import type { Row } from '@/types';
 import { nextDir, type SortDir, type SortState } from '@/utils/sort';
 import { usePagination } from '@/hooks/usePagination';
@@ -79,7 +78,7 @@ export default function CustomTable({ rows }: Props) {
     });
   }, [rows, sort, activeCol]);
 
-  const { data, page, pages, setPage, perPage, setPerPage, range, total } =
+  const { data, page, pages, setPage } =
     usePagination<Row>(sorted, 10);
 
   const visiblePages = useMemo(() => {
@@ -100,21 +99,6 @@ export default function CustomTable({ rows }: Props) {
 
   return (
     <div className="tw-table">
-      <div className="tw-table__controls">
-        <label className="tw-table__label">
-          <span>Items per page</span>
-          <Select
-            value={perPage}
-            onChange={(v) => { setPerPage(v); setPage(1); }}
-            options={[5, 10, 20, 50].map(v => ({ value: v, label: String(v) }))}
-            aria-label="Items per page"
-            className="tw-table__page-size-select"
-          />
-        </label>
-        <div className="tw-table__range" aria-live="polite" aria-atomic="true">
-          Näitan {range[0]}–{range[1]} / {total}
-        </div>
-      </div>
       <div className="tw-table__wrapper">
         <table role="table" className="tw-table__grid">
           <thead className="tw-table__head">

@@ -28,6 +28,12 @@ body {
   line-height: 1.6;
 }
 
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .tw-layout {
   position: relative;
   min-height: 100vh;
@@ -57,7 +63,7 @@ body {
 }
 
 .tw-content::before,
-.tw-content::after {
+.ant-layout-content::after {
   content: "";
   position: absolute;
   pointer-events: none;
@@ -243,26 +249,6 @@ p {
   font-weight: 700;
 }
 
-.tw-table {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  padding: var(--space-lg) var(--space-xl);
-  border-radius: 1.5rem;
-  background: radial-gradient(120% 120% at 50% 0%, rgba(113, 101, 176, 0.65) 0%, rgba(62, 53, 110, 0.92) 55%, rgba(47, 40, 86, 0.98) 100%);
-  box-shadow: 0 32px 48px rgba(11, 7, 34, 0.45);
-  backdrop-filter: blur(18px);
-}
-
-.tw-table__controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  color: rgba(255, 255, 255, 0.72);
-}
-
 .tw-table__label {
   display: flex;
   align-items: center;
@@ -313,10 +299,7 @@ p {
 }
 
 .tw-table__wrapper {
-  border-radius: 1.25rem;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(26, 20, 56, 0.35) 100%);
+  overflow: auto;
 }
 
 .tw-table__grid {
@@ -327,15 +310,15 @@ p {
 }
 
 .tw-table__head {
-  background: rgba(255, 255, 255, 0.08);
+  background: #333333;
 }
 
 .tw-table__header {
   text-align: left;
   padding: 0.875rem 1.25rem;
   border: none;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.72);
@@ -364,14 +347,15 @@ p {
 
 .tw-table__row {
   transition: background-color 0.2s ease;
+  border-bottom: #fff .0625rem solid;
 }
 
 .tw-table__row:nth-child(odd) {
-  background: rgba(255, 255, 255, 0.04);
+  background: none;
 }
 
 .tw-table__row:nth-child(even) {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255,255,255,0.1);
 }
 
 .tw-table__row:hover {
@@ -379,10 +363,11 @@ p {
 }
 
 .tw-table__cell {
-  padding: 0.875rem 1.25rem;
+  padding: .625rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   color: #f4f5ff;
+  width: 20%;
 }
 
 .tw-table__row:last-child .tw-table__cell {
@@ -395,7 +380,7 @@ p {
   justify-content: center;
   gap: var(--space-sm);
   flex-wrap: wrap;
-  margin-top: var(--space-sm);
+  margin-top: var(--space-lg);
 }
 
 .tw-table__pagination-btn {
@@ -425,7 +410,9 @@ p {
 }
 
 .tw-table__pagination-btn--nav {
-  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  font-size: 2rem;
+  font-weight: 200;
 }
 
 .tw-table__pagination-btn--nav:hover:not(:disabled) {
