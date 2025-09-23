@@ -30,7 +30,7 @@ export default function ArticlePage() {
       
       <Card className="article-card">
         <header className="article-header">
-          <h1 id="article-title">{data.title}</h1>
+          <h1 className="page-title">{data.title}</h1>
         </header>
 
         {/* Intro (HTML) */}

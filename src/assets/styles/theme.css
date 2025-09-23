@@ -41,6 +41,11 @@ body {
 
 .ant-layout {
   background: var(--bg);
+  background-image: url("../images/bg-deco-left.svg"),url("../images/bg-deco-right.svg");
+  background-repeat: no-repeat;
+  background-position: 220px bottom,100% 0;
+  background-size: 150px,250px;
+  background-attachment: fixed;
 }
 
 .ant-layout-sider {
@@ -59,32 +64,6 @@ body {
   width: 100%;
   max-width: var(--content-max-width);
   margin: var(--space-3xl) auto;
-  padding: var(--content-padding);
-}
-
-.tw-content::before,
-.ant-layout-content::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.9;
-}
-
-.tw-content::before {
-  left: 0;
-  bottom: 0;
-  width: min(33vw, 520px);
-  height: min(33vw, 520px);
-  background: url("../images/bg-deco-left.svg") left bottom / contain no-repeat;
-}
-
-.tw-content::after {
-  right: 0;
-  top: 0;
-  width: min(33vw, 520px);
-  height: min(33vw, 520px);
-  background: url("../images/bg-deco-right.svg") right top / contain no-repeat;
 }
 
 .ant-card-body {
@@ -147,7 +126,8 @@ p {
 }
 
 .page-title {
-  text-transform: none;
+ font-family: var(--font-base);
+  text-transform: uppercase;
   letter-spacing: 0;
   text-align: center;
   margin: 0 0 var(--space-md);
@@ -493,6 +473,12 @@ p {
 
   .tw-content::before {
     left: 0;
+  }
+
+  .ant-layout {
+    background-position: 0 bottom,100% 0;
+    background-size: 150px,250px;
+    padding: var(--content-padding);
   }
 
   .tw-sider.tw-sider--mobile {

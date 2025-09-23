@@ -1,4 +1,4 @@
-import { FileTextOutlined, QuestionCircleOutlined, TableOutlined } from '@ant-design/icons';
+import { FileTextOutlined, StarOutlined, TableOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import Sider from 'antd/es/layout/Sider';
@@ -12,7 +12,7 @@ type SidebarProps = {
 };
 
 const menuItems: MenuProps['items'] = [
-  { key: '/', icon: <QuestionCircleOutlined />, label: 'Avaleht' },
+  { key: '/', icon: <StarOutlined />, label: 'Avaleht' },
   { key: '/article', icon: <FileTextOutlined />, label: 'Artikkel' },
   { key: '/table', icon: <TableOutlined />, label: 'Tabel' },
 ];
