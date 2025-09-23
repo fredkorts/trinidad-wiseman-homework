@@ -1,3 +1,5 @@
+// MobileHeader renders the top navigation bar for small screens, providing
+// a toggle button for the sidebar and displaying the app logo.
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import logo from '@/assets/images/logo.svg';

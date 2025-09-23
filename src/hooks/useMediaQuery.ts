@@ -1,3 +1,5 @@
+// useMediaQuery tracks whether a CSS media query currently matches, updating the
+// calling component reactively as viewport conditions change.
 import { useEffect, useState } from 'react';
 
 export function useMediaQuery(query: string) {

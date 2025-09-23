@@ -1,3 +1,5 @@
+// AppLayout composes the sidebar and mobile header around the routed page content
+// and coordinates sidebar visibility across desktop and mobile breakpoints.
 import { useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import { Outlet } from 'react-router-dom';

@@ -1,3 +1,5 @@
+// Sidebar displays the primary navigation menu and adapts its presentation
+// for mobile or desktop layouts while handling route changes and focus states.
 import { FileTextOutlined, StarOutlined, TableOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
