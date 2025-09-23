@@ -1,6 +1,7 @@
 import { Alert, Card, Skeleton, Tag, Image, Divider } from 'antd';
 import { useEffect } from 'react';
 import { useArticle } from '@/services/api';
+import { ARTICLE_PAGE_COPY, ARTICLE_PAGE_IDS } from '@/constants';
 
 export default function ArticlePage() {
   const { data, isLoading, isError, error } = useArticle();
@@ -17,7 +18,7 @@ export default function ArticlePage() {
     return (
       <Alert
         type="error"
-        message="Failed to load article"
+        message={ARTICLE_PAGE_COPY.LOAD_ERROR}
         description={String((error as Error)?.message ?? '')}
       />
     );
@@ -26,16 +27,16 @@ export default function ArticlePage() {
   if (!data) return null;
 
   return (
-    <article className="article-page" aria-labelledby="article-title">
-      
+    <article className="article-page" aria-labelledby={ARTICLE_PAGE_IDS.TITLE}>
+
       <Card className="article-card">
         <header className="article-header">
-          <h1 className="page-title">{data.title}</h1>
+          <h1 id={ARTICLE_PAGE_IDS.TITLE} className="page-title">{data.title}</h1>
         </header>
 
         {/* Intro (HTML) */}
         {data.intro && (
-          <section className="article-intro" aria-label="Introduction">
+          <section className="article-intro" aria-label={ARTICLE_PAGE_COPY.INTRO_SECTION_ARIA_LABEL}>
             <div dangerouslySetInnerHTML={{ __html: data.intro }} />
           </section>
         )}
@@ -57,7 +58,7 @@ export default function ArticlePage() {
 
         {/* Body (HTML) */}
         {data.body && (
-          <section className="article-body" aria-label="Body">
+          <section className="article-body" aria-label={ARTICLE_PAGE_COPY.BODY_SECTION_ARIA_LABEL}>
             <div dangerouslySetInnerHTML={{ __html: data.body }} />
           </section>
         )}

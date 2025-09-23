@@ -5,6 +5,7 @@ import AppLayout from '@/components/layout/AppLayout';
 import Home from '@/pages/Home';
 import ArticlePage from '@/pages/Article';
 import TablePage from '@/pages/Table';
+import { ROUTES } from '@/constants';
 import './assets/styles/global.css';
 import './assets/styles/fonts.css';
 import './assets/styles/theme.css';
@@ -18,9 +19,9 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<AppLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/article" element={<ArticlePage />} />
-              <Route path="/table" element={<TablePage />} />
+              <Route path={ROUTES.HOME} element={<Home />} />
+              <Route path={ROUTES.ARTICLE} element={<ArticlePage />} />
+              <Route path={ROUTES.TABLE} element={<TablePage />} />
             </Route>
           </Routes>
         </BrowserRouter>

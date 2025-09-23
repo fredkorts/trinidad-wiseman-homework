@@ -4,11 +4,10 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { MobileHeader } from './MobileHeader';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-
-const MOBILE_BREAKPOINT = '(max-width: 959.98px)';
+import { MEDIA_QUERIES } from '@/constants';
 
 export default function AppLayout() {
-  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
+  const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {

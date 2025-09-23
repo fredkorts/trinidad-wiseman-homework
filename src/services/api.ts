@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import type { Article, Row, TwnListItem } from '@/types';
+import { API_ENDPOINTS, QUERY_KEYS, SEX_CODES, SEX_LABELS } from '@/constants';
 
 
 export function unixToDate(unixSec: number) {
@@ -9,14 +10,12 @@ export function unixToDate(unixSec: number) {
 }
 
 export async function getArticle(signal?: AbortSignal): Promise<Article> {
-  const url = 'https://proovitoo.twn.ee/api/list/972d2b8a';
-  const res = await axios.get<Article>(url, { signal });
+  const res = await axios.get<Article>(API_ENDPOINTS.ARTICLE, { signal });
   return res.data;
 }
 
 async function getTwnList(signal?: AbortSignal): Promise<TwnListItem[]> {
-  const url = 'https://proovitoo.twn.ee/api/list';
-  const res = await axios.get<{ list: TwnListItem[] }>(url, { signal });
+  const res = await axios.get<{ list: TwnListItem[] }>(API_ENDPOINTS.LIST, { signal });
   return res.data.list;
 }
 
@@ -25,7 +24,7 @@ export async function getTable(signal?: AbortSignal): Promise<Row[]> {
   return list.map((p) => ({
     firstName: p.firstname,
     lastName: p.surname,
-    sex: p.sex === 'm' ? 'Mees' : 'Naine',
+    sex: p.sex === SEX_CODES.MALE ? SEX_LABELS.MALE : SEX_LABELS.FEMALE,
     birthDate: p.date,      // keep numeric; UI will render dd.MM.yyyy
     phone: p.phone,
   }));
@@ -33,7 +32,7 @@ export async function getTable(signal?: AbortSignal): Promise<Row[]> {
 
 export function useArticle(): UseQueryResult<Article> {
   return useQuery({
-    queryKey: ['article', '972d2b8a'],
+    queryKey: QUERY_KEYS.ARTICLE,
     queryFn: ({ signal }) => getArticle(signal),
     retry: 2
   });
@@ -41,7 +40,7 @@ export function useArticle(): UseQueryResult<Article> {
 
 export function useTable(): UseQueryResult<Row[]> {
   return useQuery({
-    queryKey: ['table', 'twn-list'],
+    queryKey: QUERY_KEYS.TABLE,
     queryFn: ({ signal }) => getTable(signal),
     retry: 2,
     staleTime: 60_000,
