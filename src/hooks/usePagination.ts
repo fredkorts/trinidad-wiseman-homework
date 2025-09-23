@@ -1,3 +1,5 @@
+// usePagination slices an array into pages, exposing helpers for navigation,
+// page size adjustments, and range metadata derived from the current state.
 import { useMemo, useState } from 'react';
 
 export function usePagination<T>(items: T[], initialPerPage = 10) {

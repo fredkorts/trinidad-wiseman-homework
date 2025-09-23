@@ -1,3 +1,5 @@
+// CustomTable renders a sortable, paginated data grid tailored to person rows,
+// handling locale-aware sorting, cell formatting, and accessible navigation.
 import { useMemo, useState } from 'react';
 import type { Row } from '@/types';
 import { nextDir, type SortDir, type SortState } from '@/utils/sort';
