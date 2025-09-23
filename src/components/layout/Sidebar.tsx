@@ -9,6 +9,7 @@ import logo from '@/assets/images/logo.svg';
 import { BRAND_COPY, NAVIGATION_COPY, ROUTES } from '@/constants';
 
 type SidebarProps = {
+  id?: string;
   isMobile: boolean;
   open: boolean;
   onClose?: () => void;
@@ -20,7 +21,7 @@ const menuItems: MenuProps['items'] = [
   { key: ROUTES.TABLE, icon: <TableOutlined />, label: NAVIGATION_COPY.TABLE },
 ];
 
-export function Sidebar({ isMobile, open, onClose }: SidebarProps) {
+export function Sidebar({ id, isMobile, open, onClose }: SidebarProps) {
   const nav = useNavigate();
   const loc = useLocation();
 
@@ -36,6 +37,7 @@ export function Sidebar({ isMobile, open, onClose }: SidebarProps) {
 
   return (
     <Sider
+      id={id}
       className={classNames.join(' ')}
       theme="light"
       width={220}

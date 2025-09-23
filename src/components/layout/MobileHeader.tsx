@@ -8,14 +8,16 @@ import { BRAND_COPY, MOBILE_HEADER_COPY } from '@/constants';
 type MobileHeaderProps = {
   isOpen: boolean;
   onToggle: () => void;
+  sidebarId: string;
 };
 
-export function MobileHeader({ isOpen, onToggle }: MobileHeaderProps) {
+export function MobileHeader({ isOpen, onToggle, sidebarId }: MobileHeaderProps) {
   return (
     <header className="tw-mobile-header">
       <Button
         aria-label={isOpen ? MOBILE_HEADER_COPY.CLOSE_SIDEBAR : MOBILE_HEADER_COPY.OPEN_SIDEBAR}
         aria-expanded={isOpen}
+        aria-controls={sidebarId}
         type="text"
         onClick={onToggle}
         icon={isOpen ? <CloseOutlined /> : <MenuOutlined />}

@@ -66,6 +66,21 @@ body {
   margin: var(--space-3xl) auto;
 }
 
+.tw-content__main {
+  display: block;
+}
+
+.not-found {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+}
+
+.not-found__link {
+  color: var(--secondary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .ant-card-body {
   padding: 0 !important;
 }
