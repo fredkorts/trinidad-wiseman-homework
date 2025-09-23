@@ -1,3 +1,5 @@
+import type { SexLabel } from '@/constants';
+
 export type Sex = 'm' | 'f';
 
 export interface TwnImage {
@@ -47,7 +49,7 @@ export interface Article {
 export interface Row {
   firstName: string;
   lastName: string;
-  sex: 'Mees' | 'Naine';
+  sex: SexLabel;
   birthDate: number; // unix seconds; we'll format in the UI
   phone: string;
 }

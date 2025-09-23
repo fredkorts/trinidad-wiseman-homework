@@ -1,6 +1,7 @@
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import logo from '@/assets/images/logo.svg';
+import { BRAND_COPY, MOBILE_HEADER_COPY } from '@/constants';
 
 type MobileHeaderProps = {
   isOpen: boolean;
@@ -11,7 +12,7 @@ export function MobileHeader({ isOpen, onToggle }: MobileHeaderProps) {
   return (
     <header className="tw-mobile-header">
       <Button
-        aria-label={isOpen ? 'Sulge külgriba' : 'Ava külgriba'}
+        aria-label={isOpen ? MOBILE_HEADER_COPY.CLOSE_SIDEBAR : MOBILE_HEADER_COPY.OPEN_SIDEBAR}
         aria-expanded={isOpen}
         type="text"
         onClick={onToggle}
@@ -19,7 +20,7 @@ export function MobileHeader({ isOpen, onToggle }: MobileHeaderProps) {
         className="tw-mobile-header__toggle"
       />
       <div className="tw-mobile-header__logo">
-        <img src={logo} alt="Trinidad Wiseman" />
+        <img src={logo} alt={BRAND_COPY.NAME} />
       </div>
     </header>
   );

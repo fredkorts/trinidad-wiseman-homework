@@ -4,6 +4,7 @@ import type { MenuProps } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '@/assets/images/logo.svg';
+import { BRAND_COPY, NAVIGATION_COPY, ROUTES } from '@/constants';
 
 type SidebarProps = {
   isMobile: boolean;
@@ -12,9 +13,9 @@ type SidebarProps = {
 };
 
 const menuItems: MenuProps['items'] = [
-  { key: '/', icon: <StarOutlined />, label: 'Avaleht' },
-  { key: '/article', icon: <FileTextOutlined />, label: 'Artikkel' },
-  { key: '/table', icon: <TableOutlined />, label: 'Tabel' },
+  { key: ROUTES.HOME, icon: <StarOutlined />, label: NAVIGATION_COPY.HOME },
+  { key: ROUTES.ARTICLE, icon: <FileTextOutlined />, label: NAVIGATION_COPY.ARTICLE },
+  { key: ROUTES.TABLE, icon: <TableOutlined />, label: NAVIGATION_COPY.TABLE },
 ];
 
 export function Sidebar({ isMobile, open, onClose }: SidebarProps) {
@@ -40,7 +41,7 @@ export function Sidebar({ isMobile, open, onClose }: SidebarProps) {
       aria-hidden={isMobile && !open}
     >
       <div className="tw-logo">
-        <img src={logo} alt="Trinidad Wiseman" />
+        <img src={logo} alt={BRAND_COPY.NAME} />
       </div>
 
       <Menu

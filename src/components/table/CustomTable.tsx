@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import type { Row } from '@/types';
 import { nextDir, type SortDir, type SortState } from '@/utils/sort';
 import { usePagination } from '@/hooks/usePagination';
+import { TABLE_A11Y_COPY, TABLE_COLUMN_LABELS } from '@/constants';
 
 interface Props { rows: Row[]; }
 
@@ -37,17 +38,23 @@ function defaultCompare(a: Comparable, b: Comparable): number {
 
 /** Column setup: clear, extensible, no dynamic indexing */
 const COLUMNS: Column<Row>[] = [
-  { key: 'firstName', label: 'Eesnimi', accessor: r => r.firstName },
-  { key: 'lastName',  label: 'Perekonnanimi', accessor: r => r.lastName },
-  { key: 'sex',       label: 'Sugu', accessor: r => r.sex },
+  { key: 'firstName', label: TABLE_COLUMN_LABELS.FIRST_NAME, accessor: r => r.firstName },
+  { key: 'lastName',  label: TABLE_COLUMN_LABELS.LAST_NAME, accessor: r => r.lastName },
+  { key: 'sex',       label: TABLE_COLUMN_LABELS.SEX, accessor: r => r.sex },
   // unix seconds → sort numerically
-  { key: 'birthDate', label: 'Sünnikuupäev', accessor: r => r.birthDate },
+  { key: 'birthDate', label: TABLE_COLUMN_LABELS.BIRTH_DATE, accessor: r => r.birthDate },
   // phone: sort by numeric digits (natural order)
-  { key: 'phone',     label: 'Telefon', accessor: r => Number(r.phone.replace(/\D/g, '')) },
+  { key: 'phone',     label: TABLE_COLUMN_LABELS.PHONE, accessor: r => Number(r.phone.replace(/\D/g, '')) },
 ];
 
 function SortHeader({ label, active, dir }: { label: string; active: boolean; dir: SortDir }) {
-  const suffix = !active ? '' : dir === 'asc' ? ' ▲' : dir === 'desc' ? ' ▼' : '';
+  const suffix = !active
+    ? ''
+    : dir === 'asc'
+      ? TABLE_A11Y_COPY.SORT_ASC_SUFFIX
+      : dir === 'desc'
+        ? TABLE_A11Y_COPY.SORT_DESC_SUFFIX
+        : '';
   return <span aria-live="polite">{label}{suffix}</span>;
 }
 
@@ -115,7 +122,7 @@ export default function CustomTable({ rows }: Props) {
                   >
                     <button
                       onClick={() => cycle(key)}
-                      aria-label={`Sorteeri veerg: ${label}`}
+                      aria-label={`${TABLE_A11Y_COPY.SORT_BUTTON_PREFIX}${label}`}
                       type="button"
                       className="tw-table__sort"
                     >
@@ -140,15 +147,15 @@ export default function CustomTable({ rows }: Props) {
         </table>
       </div>
 
-      <nav aria-label="Lehekülgede vahetus" className="tw-table__pagination">
+      <nav aria-label={TABLE_A11Y_COPY.PAGINATION_ARIA_LABEL} className="tw-table__pagination">
         <button
           type="button"
           className="tw-table__pagination-btn tw-table__pagination-btn--nav"
           onClick={() => setPage(page - 1)}
           disabled={page <= 1}
-          aria-label="Eelmine leht"
+          aria-label={TABLE_A11Y_COPY.PREVIOUS_PAGE}
         >
-          ‹
+          {TABLE_A11Y_COPY.PREVIOUS_ICON}
         </button>
         {visiblePages.map(p => (
           <button
@@ -166,9 +173,9 @@ export default function CustomTable({ rows }: Props) {
           className="tw-table__pagination-btn tw-table__pagination-btn--nav"
           onClick={() => setPage(page + 1)}
           disabled={page >= pages}
-          aria-label="Järgmine leht"
+          aria-label={TABLE_A11Y_COPY.NEXT_PAGE}
         >
-          ›
+          {TABLE_A11Y_COPY.NEXT_ICON}
         </button>
       </nav>
     </div>
