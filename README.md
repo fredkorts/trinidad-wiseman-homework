@@ -2,6 +2,10 @@
 
 A React single-page application bootstrapped with Vite and TypeScript. The project pairs Ant Design UI components with React Query-driven data fetching and includes tooling for unit tests and linting.
 
+## 🚀 Live Demo
+
+Check out the live application: **[https://trinidad-wiseman-homework.vercel.app/](https://trinidad-wiseman-homework.vercel.app/)**
+
 ## Tech Stack
 
 - **Framework:** [React 19](https://react.dev/) with [React Router](https://reactrouter.com/) for routing
@@ -34,7 +38,7 @@ npm --version
    npm run dev
    ```
    The Vite dev server runs on [http://localhost:5173](http://localhost:5173) by default.
-3. *(Optional)* **Start the mock API** used during development
+3. _(Optional)_ **Start the mock API** used during development
    ```bash
    npm run mock
    ```
@@ -42,15 +46,15 @@ npm --version
 
 ## Available Scripts
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the Vite development server with hot module reloading. |
-| `npm run mock` | Launch the local mock API server on port 8888. |
-| `npm run build` | Type-check the project and generate a production build. |
-| `npm run preview` | Preview the production build locally after running `npm run build`. |
-| `npm run lint` | Run ESLint across the codebase. |
-| `npm test` | Execute the Vitest unit test suite once. |
-| `npm run test:watch` | Run Vitest in watch mode for rapid feedback while developing. |
+| Command              | Description                                                         |
+| -------------------- | ------------------------------------------------------------------- |
+| `npm run dev`        | Start the Vite development server with hot module reloading.        |
+| `npm run mock`       | Launch the local mock API server on port 8888.                      |
+| `npm run build`      | Type-check the project and generate a production build.             |
+| `npm run preview`    | Preview the production build locally after running `npm run build`. |
+| `npm run lint`       | Run ESLint across the codebase.                                     |
+| `npm test`           | Execute the Vitest unit test suite once.                            |
+| `npm run test:watch` | Run Vitest in watch mode for rapid feedback while developing.       |
 
 ## Running Tests
 
@@ -83,4 +87,3 @@ npm run lint
 - [Vite documentation](https://vitejs.dev/guide/)
 - [Ant Design documentation](https://ant.design/components/overview/)
 - [TanStack Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview)
-
