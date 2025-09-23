@@ -40,19 +40,27 @@ describe('useMediaQuery', () => {
 
     const listeners = new Set<(event: MediaQueryListEvent) => void>();
     const addEventListener = vi.fn(
-      (_event: string, listener: (event: MediaQueryListEvent) => void) => {
-        listeners.add(listener);
+      (_event: string, listener: EventListenerOrEventListenerObject) => {
+        if (typeof listener === 'function') {
+          listeners.add(listener as (event: MediaQueryListEvent) => void);
+        }
       },
-    );
+    ) as MediaQueryList['addEventListener'];
+    
     const removeEventListener = vi.fn(
-      (_event: string, listener: (event: MediaQueryListEvent) => void) => {
-        listeners.delete(listener);
+      (_event: string, listener: EventListenerOrEventListenerObject) => {
+        if (typeof listener === 'function') {
+          listeners.delete(listener as (event: MediaQueryListEvent) => void);
+        }
       },
-    );
+    ) as MediaQueryList['removeEventListener'];
 
+    // Create a mutable object that we can modify
+    const mqlState = { matches: true };
+    
     const mql: MediaQueryList = {
       media: '(max-width: 600px)',
-      matches: true,
+      get matches() { return mqlState.matches; },
       onchange: null,
       addEventListener,
       removeEventListener,
@@ -73,7 +81,7 @@ describe('useMediaQuery', () => {
     expect(result.current).toBe(true);
 
     const emitChange = (matches: boolean) => {
-      mql.matches = matches;
+      mqlState.matches = matches;
       listeners.forEach((listener) => listener({ matches } as MediaQueryListEvent));
     };
 

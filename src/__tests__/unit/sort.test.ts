@@ -6,7 +6,7 @@ describe('sort helpers', () => {
     { id: 2, name: 'B', value: 20, category: 'x' },
     { id: 1, name: 'A', value: 10, category: 'y' },
     { id: 3, name: 'C', value: 30, category: 'z' },
-  ] as const;
+  ];
 
   it('cycles through the available sort directions', () => {
     expect(nextDir('none')).toBe('asc');

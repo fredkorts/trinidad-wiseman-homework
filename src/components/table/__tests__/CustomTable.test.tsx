@@ -58,12 +58,15 @@ describe('CustomTable', () => {
     const user = userEvent.setup();
     render(<CustomTable rows={rows} />);
 
-    const firstDataRow = screen.getAllByRole('row')[1];
-    expect(within(firstDataRow).getByText(rows[0].firstName)).toBeInTheDocument();
+    const allRows = screen.getAllByRole('row');
+    const firstDataRow = allRows[1]!;
+    expect(within(firstDataRow).getByText(rows[0]!.firstName)).toBeInTheDocument();
     expect(within(firstDataRow).getByText('03.01.2021')).toBeInTheDocument();
-    expect(within(firstDataRow).getByText(rows[0].phone)).toBeInTheDocument();
+    expect(within(firstDataRow).getByText(rows[0]!.phone)).toBeInTheDocument();
 
-    const phoneHeaderButton = within(screen.getAllByRole('columnheader')[4]).getByRole('button', {
+    const columnHeaders = screen.getAllByRole('columnheader');
+    const phoneHeader = columnHeaders[4]!;
+    const phoneHeaderButton = within(phoneHeader).getByRole('button', {
       name: `${TABLE_A11Y_COPY.SORT_BUTTON_PREFIX}${TABLE_COLUMN_LABELS.PHONE}`,
     });
 
@@ -72,9 +75,9 @@ describe('CustomTable', () => {
     const expectedPhoneOrder = [...rows].sort(
       (a, b) => Number(a.phone.replace(/\D/g, '')) - Number(b.phone.replace(/\D/g, '')),
     );
-    const sortedFirstRow = screen.getAllByRole('row')[1];
-    expect(within(sortedFirstRow).getByText(expectedPhoneOrder[0].firstName)).toBeInTheDocument();
-    expect(within(sortedFirstRow).getByText(expectedPhoneOrder[0].phone)).toBeInTheDocument();
+    const sortedFirstRow = screen.getAllByRole('row')[1]!;
+    expect(within(sortedFirstRow).getByText(expectedPhoneOrder[0]!.firstName)).toBeInTheDocument();
+    expect(within(sortedFirstRow).getByText(expectedPhoneOrder[0]!.phone)).toBeInTheDocument();
   });
 
   it('cycles sort state and updates aria attributes', async () => {
@@ -82,7 +85,7 @@ describe('CustomTable', () => {
     const user = userEvent.setup();
     render(<CustomTable rows={rows} />);
 
-    const firstNameHeader = screen.getAllByRole('columnheader')[0];
+    const firstNameHeader = screen.getAllByRole('columnheader')[0]!;
     expect(firstNameHeader).toHaveAttribute('aria-sort', 'none');
 
     const sortButton = within(firstNameHeader).getByRole('button', {
@@ -106,7 +109,7 @@ describe('CustomTable', () => {
       ),
     ).toBeInTheDocument();
     const ascValues = readFirstColumn();
-    expect(ascValues[0]).toBe(expectedAsc[0].firstName);
+    expect(ascValues[0]).toBe(expectedAsc[0]!.firstName);
 
     await user.click(sortButton);
     expect(firstNameHeader).toHaveAttribute('aria-sort', 'descending');
@@ -116,7 +119,7 @@ describe('CustomTable', () => {
       ),
     ).toBeInTheDocument();
     const descValues = readFirstColumn();
-    expect(descValues[0]).toBe(expectedDesc[0].firstName);
+    expect(descValues[0]).toBe(expectedDesc[0]!.firstName);
   });
 
   it('resets to page 1 after sorting a new column and windows pagination buttons', async () => {
@@ -126,7 +129,7 @@ describe('CustomTable', () => {
 
     const pagination = screen.getAllByLabelText<HTMLDivElement>(TABLE_A11Y_COPY.PAGINATION_ARIA_LABEL, {
       selector: 'nav',
-    })[0];
+    })[0]!;
     const numberButtons = () =>
       within(pagination)
         .getAllByRole('button')
@@ -135,13 +138,13 @@ describe('CustomTable', () => {
 
     expect(numberButtons()).toEqual(['1', '2', '3', '4', '5']);
 
-    const pageButton = (label: string) => within(pagination).getAllByRole('button', { name: label })[0];
+    const pageButton = (label: string) => within(pagination).getAllByRole('button', { name: label })[0]!;
 
     await user.click(pageButton('4'));
     expect(pageButton('4')).toHaveAttribute('aria-current', 'page');
     expect(numberButtons()).toEqual(['2', '3', '4', '5', '6']);
 
-    const lastNameHeader = screen.getAllByRole('columnheader')[1];
+    const lastNameHeader = screen.getAllByRole('columnheader')[1]!;
     const lastNameButton = within(lastNameHeader).getByRole('button', {
       name: `${TABLE_A11Y_COPY.SORT_BUTTON_PREFIX}${TABLE_COLUMN_LABELS.LAST_NAME}`,
     });
@@ -158,10 +161,10 @@ describe('CustomTable', () => {
 
     const pagination = screen.getAllByLabelText<HTMLDivElement>(TABLE_A11Y_COPY.PAGINATION_ARIA_LABEL, {
       selector: 'nav',
-    })[0];
-    const prev = within(pagination).getAllByRole('button', { name: TABLE_A11Y_COPY.PREVIOUS_PAGE })[0];
-    const next = within(pagination).getAllByRole('button', { name: TABLE_A11Y_COPY.NEXT_PAGE })[0];
-    const pageButton = (label: string) => within(pagination).getAllByRole('button', { name: label })[0];
+    })[0]!;
+    const prev = within(pagination).getAllByRole('button', { name: TABLE_A11Y_COPY.PREVIOUS_PAGE })[0]!;
+    const next = within(pagination).getAllByRole('button', { name: TABLE_A11Y_COPY.NEXT_PAGE })[0]!;
+    const pageButton = (label: string) => within(pagination).getAllByRole('button', { name: label })[0]!;
 
     expect(prev).toBeDisabled();
     expect(next).not.toBeDisabled();
